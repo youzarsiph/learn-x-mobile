@@ -1,15 +1,15 @@
-import tw from "twrnc";
+import React from "react";
 import { Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "../components";
+import { Text, Surface } from "react-native-paper";
 
-const ModalScreen = () => (
-  <View style={tw`flex-1 items-center justify-center`}>
-    <Text style={tw`text-xl font-bold`}>Modal</Text>
+const Modal = () => (
+  <Surface>
+    <Text>Modal</Text>
 
     {/* Use a light status bar on iOS to account for the black space above the modal */}
     <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
-  </View>
+  </Surface>
 );
 
-export default ModalScreen;
+export default Modal;

@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, Surface } from "react-native-paper";
 
-const Explore = () => (
+const Projects = () => (
   <Surface style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-    <Text variant="titleLarge">Explore</Text>
+    <Text variant="titleLarge">Projects</Text>
   </Surface>
 );
 
-export default Explore;
+export default Projects;

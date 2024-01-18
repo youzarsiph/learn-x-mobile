@@ -1,15 +1,42 @@
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import tw, { useDeviceContext } from "twrnc";
 import { useColorScheme } from "react-native";
 import { SplashScreen, Stack } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
+import { getHeaderTitle } from "@react-navigation/elements";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
 } from "@react-navigation/native";
-import Colors from "../constants/Colors";
+import {
+  PaperProvider,
+  adaptNavigationTheme,
+  MD3LightTheme,
+  MD3DarkTheme,
+  Appbar,
+} from "react-native-paper";
+
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+});
+
+const CombinedDefaultTheme = {
+  ...MD3LightTheme,
+  ...LightTheme,
+  colors: {
+    ...MD3LightTheme.colors,
+    ...LightTheme.colors,
+  },
+};
+const CombinedDarkTheme = {
+  ...MD3DarkTheme,
+  ...DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
+    ...DarkTheme.colors,
+  },
+};
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -27,7 +54,7 @@ SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    ...MaterialIcons.font,
+    ...MaterialCommunityIcons.font,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -49,22 +76,32 @@ const RootLayout = () => {
 };
 
 const RootLayoutNav = () => {
-  useDeviceContext(tw);
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <PaperProvider
+      theme={colorScheme === "light" ? CombinedDefaultTheme : CombinedDarkTheme}
+    >
       <Stack
         screenOptions={{
-          contentStyle: {
-            backgroundColor: Colors[colorScheme ?? "light"].background,
+          header: (props) => {
+            const title = getHeaderTitle(props.options, props.route.name);
+
+            return (
+              <Appbar.Header>
+                {props.back ? (
+                  <Appbar.BackAction onPress={props.navigation.goBack} />
+                ) : null}
+                <Appbar.Content title={title} />
+              </Appbar.Header>
+            );
           },
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
-    </ThemeProvider>
+    </PaperProvider>
   );
 };
 

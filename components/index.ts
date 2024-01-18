@@ -1,5 +1,3 @@
-import { ExternalLink } from "./ExternalLink";
-import { MonoText } from "./StyledText";
-import { Text, View } from "./Themed";
+import Course from "./Course";
 
-export { ExternalLink, MonoText, Text, View };
+export { Course };

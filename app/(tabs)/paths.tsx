@@ -1,10 +1,10 @@
 import React from "react";
-import { Surface, Text } from "react-native-paper";
+import { Text, Surface } from "react-native-paper";
 
-const Home = () => (
+const Paths = () => (
   <Surface style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
     <Text variant="titleLarge">Learning Paths</Text>
   </Surface>
 );
 
-export default Home;
+export default Paths;
